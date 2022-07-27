@@ -13,7 +13,7 @@ import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { PaginationQuery } from './dto/pagiantion-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
-import { Public } from '../common/decorators/public.decorater';
+import { Public } from '../common/decorators/public.decorator';
 import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 
 @Controller('coffees')
