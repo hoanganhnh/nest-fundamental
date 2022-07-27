@@ -89,7 +89,8 @@ export class CoffeesService {
     return this.flavorRepository.create({ name });
   }
 
-  async recommecdCoffee(coffee: Coffee) {
+  // @TODO: use transaction
+  async recommenedCoffee(coffee: Coffee) {
     const queryRunner = this.connection.createQueryRunner();
 
     await queryRunner.connect();
