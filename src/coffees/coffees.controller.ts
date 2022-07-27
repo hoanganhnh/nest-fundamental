@@ -14,6 +14,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { PaginationQuery } from './dto/pagiantion-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Public } from '../common/decorators/public.decorater';
+import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -29,7 +30,7 @@ export class CoffeesController {
 
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.coffeeService.findOne(id);
   }
 
