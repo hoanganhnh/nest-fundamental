@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Injectable, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CoffeesController } from './coffees.controller';
@@ -6,17 +6,25 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Event } from './entities/event.entity';
 import { Flavor } from './entities/flavor.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+import { COFFEE_BRANDS, COFFEE_BRAND_FACTORY } from './coffees.constants';
 
 class ConfigService {}
 class DevConfigService {}
 class ProConfigService {}
+
+@Injectable()
+export class CoffeeBrandsFactory {
+  createBrand() {
+    return ['coffee-factory'];
+  }
+}
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
+    CoffeeBrandsFactory,
     {
       provide: ConfigService,
       useClass:
@@ -27,6 +35,12 @@ class ProConfigService {}
     {
       provide: COFFEE_BRANDS,
       useValue: ['nestcafe', 'trung nguyen'],
+    },
+    {
+      provide: COFFEE_BRAND_FACTORY,
+      useFactory: (brandsFactory: CoffeeBrandsFactory) =>
+        brandsFactory.createBrand(),
+      inject: [CoffeeBrandsFactory],
     },
   ],
   exports: [CoffeesService],
