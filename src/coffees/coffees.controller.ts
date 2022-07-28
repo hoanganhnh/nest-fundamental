@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
 
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -28,12 +29,17 @@ export class CoffeesController {
     return this.coffeeService.findAll(paginationQuery);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Find one coffee',
+  })
   @Public()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {
     return this.coffeeService.findOne(id);
   }
 
+  @ApiForbiddenResponse({ description: 'This is only for Admin' })
   @Post()
   createOne(@Body() createCoffeeDto: CreateCoffeeDto) {
     return this.coffeeService.createOne(createCoffeeDto);
